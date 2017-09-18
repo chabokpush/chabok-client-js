@@ -23,7 +23,7 @@ push.on('message', msg => console.log('Message ', msg))
 
 push.register('989125336382')
 
-ch.enableDeliveryForEvent('geo')
+push.enableDeliveryForEvent('geo')
 
-ch.on('geo', geoEvent => console.log('Geo Event ', geoEvent))
+push.on('geo', geoEvent => console.log('Geo Event ', geoEvent))
 ```

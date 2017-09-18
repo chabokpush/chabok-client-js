@@ -1,0 +1,28 @@
+{
+    "name": "chabokpush",
+    "version": "0.0.1",
+    "description": "Chabok JavaScript Client for browsers, React Native, web workers and Node.js",
+    "main": "dist/chabokpush.min.js",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chabokpush/chabok-client-js.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "eslintConfig": {
+        "env": {
+            "browser": true,
+            "node": true
+        },
+        "parserOptions": {
+            "ecmaVersion": 6,
+            "sourceType": "module"
+        },
+        "rules": {
+            "semi": 2
+        }
+    },
+    "dependencies": {},
+    "devDependencies": {}
+}

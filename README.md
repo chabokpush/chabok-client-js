@@ -18,12 +18,12 @@ const options = {
 const push = new chabokpush.Chabok(options)
 
 push.on('registered', deviceId => console.log('DeviceId ', deviceId))
-push.on('connected', _ => console.log('Connected'))
+push.on('connected', _ => {
+  console.log('Connected')
+  push.enableDeliveryForEvent('geo')
+})
 push.on('message', msg => console.log('Message ', msg))
-
-push.register('989125336382')
-
-push.enableDeliveryForEvent('geo')
-
 push.on('geo', geoEvent => console.log('Geo Event ', geoEvent))
+
+push.register('USERID')
 ```

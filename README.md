@@ -1,10 +1,22 @@
-# Chabok Push Client for Javascript
+## Chabok Push for Javascript/Node.js
+[![NPM version](https://img.shields.io/npm/v/chabokpush.svg?style=flat)](https://www.npmjs.com/package/chabokpush)
+[![NPM downloads](https://img.shields.io/npm/dm/chabokpush.svg?style=flat)](https://www.npmjs.com/package/chabokpush)
 
-## Getting started
+Blow some breath to your app with Chabok realtime messaging and receive push notifications cross any platform with zero code.
+Know your users's better, push them content based on their location or track their presence/location withoud headache.
 
+
+### Installation
 `npm install chabokpush`
-  
-## Sample Usage
+
+OR 
+
+See Chabok Push [Javascript library installation](http://doc.chabokpush.com/javascript/installation.html) document.
+
+
+### Usage
+
+You can get started with the following code:
 
 ```js
 const options = {
@@ -33,3 +45,9 @@ chabok.on('closed', _ => console.log('disconnected'))
 
 chabok.register('989125336382')
 ```
+
+See Chabok Push [Usage](http://doc.chabokpush.com/javascript/setup.html) page for a list of all available methods.
+
+
+### Support
+Please visit [Issues](https://github.com/behrad/chabok-client-android/issues).

@@ -1,33 +1,82 @@
-## Chabok Push for Javascript/Node.js
-[![NPM version](https://img.shields.io/npm/v/chabokpush.svg?style=flat)](https://www.npmjs.com/package/chabokpush)
-[![NPM downloads](https://img.shields.io/npm/dm/chabokpush.svg?style=flat)](https://www.npmjs.com/package/chabokpush)
+# Chabok Push Client for Javascript
+This Chabok Push client library supports web browsers, web workers.
 
-Blow some breath to your app with Chabok realtime messaging and receive push notifications cross any platform with zero code.
-Know your users's better, push them content based on their location or track their presence/location withoud headache.
+## Getting started
 
 
-### Installation
-`npm install chabokpush`
 
-OR 
+#### Yarn (or NPM)
 
-See Chabok Push [Javascript library installation](http://doc.chabokpush.com/javascript/installation.html) document.
+You can use any NPM-compatible package manager, including NPM itself and Yarn.
 
+```bash
+npm install chabokpush --save
+```
+Or:
+```bash
+yarn add chabokpush
+```
 
-### Usage
+Then:
 
-You can get started with the following code:
+```javascript
+import chabokpush from 'chabokpush';
+```
+
+Or, if you're not using ES6 modules:
+
+```javascript
+const chabokpush = require('chabokpush');
+```
+#### CDN
+
+```html
+<script src="https://unpkg.com/chabokpush@[X.Y.Z]/dist/chabokpush.min.js"></script>
+```
+Replace [X.Y.Z] with the latest version
+
+## Initialization
 
 ```js
-const options = {
-  appId: 'YOUR_APP_ID',
-  apiKey: 'YOUR_API_KEY',
+const auth = {
+  appId: 'APP_ID',
+  apiKey: 'API_KEY',
+  username: 'USERNAME',
+  password: 'PASSWORD',
+  devMode:true
+}
+const options={silent: true}
+
+const chabok = new chabokpush.Chabok(auth, options)
+```
+if devMode enabled you can Test your Project on development Mode.
+You can get your `APP_ID`, `API_KEY`, `USERNAME` and `PASSWORD` from the [Chabok dashboard](http://sandbox.push.adpdigital.com/front/account/edit).
+
+## Options
+
+There are a number of configuration parameters which can be set for the ChabokPush client, which can be passed as an object to the ChabokPush constructor, i.e.:
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [options] | <code>Object</code> |  |  |
+| [options.webpush] | <code>Object</code> |  |  |
+| [options.webpush.enabled] | <code>Boolean</code> | <code>false</code> | Set true to enable push Notification |
+| [options.silent] | <code>Boolean</code> | <code>true</code> | Receive messages Silently |
+
+
+## Sample Usage
+
+```js
+const auth = {
+  appId: 'APP_ID',
+  apiKey: 'API_KEY',
   username: 'USERNAME',
   password: 'PASSWORD',
   devMode: true
 }
+const options={}
 
-const chabok = new chabokpush.Chabok(options)
+const chabok = new chabokpush.Chabok(auth, options)
 
 chabok.on('registered', deviceId => console.log('DeviceId ', deviceId))
 
@@ -43,11 +92,5 @@ chabok.on('connecting', _ => console.log('Reconnecting'))
 chabok.on('disconnected', _ => console.log('offline'))
 chabok.on('closed', _ => console.log('disconnected'))
 
-chabok.register('989125336382')
+chabok.register('012345678910111213')
 ```
-
-See Chabok Push [Usage](http://doc.chabokpush.com/javascript/setup.html) page for a list of all available methods.
-
-
-### Support
-Please visit [Issues](https://github.com/chabokpush/chabok-client-js/issues).

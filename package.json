@@ -1,14 +1,15 @@
 {
     "name": "chabokpush",
-    "version": "0.1.6",
+    "version": "0.3.2",
     "description": "Chabok JavaScript Client for browsers, React Native, web workers and Node.js",
     "main": "dist/chabokpush.min.js",
+    "homepage": "http://chabokpush.com/",
     "scripts": {},
     "repository": {
         "type": "git",
         "url": "https://github.com/chabokpush/chabok-client-js.git"
     },
-    "author": "",
+    "author": "ADP digital",
     "license": "ISC",
     "eslintConfig": {
         "env": {

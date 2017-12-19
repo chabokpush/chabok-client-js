@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="https://chabokpush.com/www/image/chabok-logo-big.png"/>
+  <title>Chabok Web Push Notifications</title>
+</head>
+<style>
+  body {
+    background: #eee;
+  }
+
+  .list-group li::after {
+    position: absolute;
+    content: attr(data-date);
+    font-size: 12px;
+    color: #999;
+    margin: auto 15px;
+  }
+</style>
+<body>
+
+<nav class="navbar bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="https://chabokpush.com/www/image/chabok-logo-big.png" height="30" class="d-inline-block align-top" alt="">
+    Chabok Web SDK Sample
+  </a>
+  <button type="button" id="status" class="btn btn-danger pull-right">Disconnected</button>
+</nav>
+
+
+<div class="container">
+  <div class="columns mt-5">
+    <div class="form-group">
+      <label for="userId">User Id</label>
+      <input type="text" id="userId" class="form-control" placeholder="Please Enter User Id"
+             aria-describedby="userIdHelpBlock">
+      <small id="userIdHelpBlock" class="form-text text-muted">
+        Please Enter Valid User id, for example Phone Number, email, etc.
+      </small>
+      <div class="invalid-feedback">
+        Error: Please Enter Valid user Id!
+      </div>
+      <div class="valid-feedback">
+        You registered on Chabok successfully.
+      </div>
+    </div>
+    <button type="button" id="register" class="btn btn-primary">Register</button>
+    <button type="button" id="unRegister" class="btn btn-danger">Unregister</button>
+  </div>
+  <hr/>
+  <h4>Messages List</h4>
+  <ul id="list" class="list-group">
+
+  </ul>
+</div>
+
+<script src="../dist/chabokpush.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const registerButton = document.getElementById("register")
+    const statusButton = document.getElementById("status")
+    const unRegisterButton = document.getElementById("unRegister")
+    const invalidFeedback = document.querySelector(".invalid-feedback")
+    const validFeedback = document.querySelector(".valid-feedback")
+    const authConfig = {
+      appId: 'chabok-starter',
+      apiKey: 'ae98537a4fb4957277374083a356d2ceb63372c4',
+      username: 'chabok-starter',
+      password: 'chabok-starter',
+      devMode: true
+    };
+    const options = {
+      webpush: {
+        enabled: true
+      },
+      silent: false,
+    };
+    const chabok = new chabokpush.Chabok(authConfig, options);
+
+
+    function disconnectedStatus() {
+      statusButton.innerText = "Disconnected"
+      classList(statusButton).remove("btn-success").add("btn-danger")
+    }
+
+    function successStatus() {
+      statusButton.innerText = "Connected"
+      classList(statusButton).add("btn-success").remove("btn-danger")
+    }
+
+    function registeredStat() {
+      document.getElementById('userId').value = chabok.getUserId()
+      classList(invalidFeedback).remove("d-block")
+      classList(validFeedback).add("d-block")
+      unRegisterButton.disabled = false
+      registerButton.disabled = true
+    }
+
+    /**
+     * handle class attribute with chaining
+     * @param elt
+     * @return {{toggle: toggle, add: add, remove: remove}}
+     */
+    function classList(elt) {
+      const list = elt.classList;
+      return {
+        toggle: function (c) {
+          list.toggle(c);
+          return this;
+        },
+        add: function (c) {
+          list.add(c);
+          return this;
+        },
+        remove: function (c) {
+          list.remove(c);
+          return this;
+        }
+      };
+    }
+
+    chabok.on('registered', deviceId => {
+      console.log('DeviceId ', deviceId)
+      registeredStat()
+    })
+    chabok.on('connected', _ => {
+      successStatus()
+      console.log('Connected')
+    });
+    chabok.on('message', msg => {
+      console.log(msg)
+      const date = new Date(msg.createdAt);
+      const ul = document.getElementById("list");
+      const li = document.createElement("li");
+      li.setAttribute("class", "list-group-item")
+      li.appendChild(document.createTextNode(`${msg.content}`));
+      li.dataset.date = `${date.getFullYear()}/${date.getMonth()}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`
+      ul.insertAdjacentElement('afterbegin', li);
+    })
+
+    chabok.on('geo', geoEvent => console.log('Geo Event ', geoEvent))
+    chabok.on('connecting', _ => console.log('Reconnecting'))
+    chabok.on('disconnected', _ => {
+      disconnectedStatus()
+      console.log('offline')
+    })
+    chabok.on('closed', _ => {
+      disconnectedStatus()
+      console.log('disconnected')
+    })
+
+    if (localStorage.getItem('installation')) {
+      unRegisterButton.disabled = false
+      registerButton.disabled = true
+    } else {
+      unRegisterButton.disabled = true
+      registerButton.disabled = false
+    }
+
+    registerButton
+      .addEventListener("click", _ => {
+        const userId = document.getElementById('userId').value;
+
+        chabok
+          .register(userId)
+          .then(_ => {
+            registeredStat()
+          })
+          .catch(_ => {
+            classList(invalidFeedback).add("d-block")
+            classList(validFeedback).remove("d-block")
+          })
+      }, false);
+
+    unRegisterButton
+      .addEventListener("click", _ => {
+        chabok.unregister()
+        document.getElementById('userId').value = ''
+        unRegisterButton.disabled = true
+        registerButton.disabled = false
+      }, false);
+
+
+  });
+</script>
+</body>
+</html>

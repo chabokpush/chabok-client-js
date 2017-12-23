@@ -1,3 +1,4 @@
+![Logo](https://chabokpush.com/images/chabook.png)
 # Chabok Push Client for Javascript
 This Chabok Push client library supports web browsers, web workers.
 

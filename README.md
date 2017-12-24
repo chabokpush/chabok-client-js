@@ -60,6 +60,7 @@ There are a number of configuration parameters which can be set for the ChabokPu
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> |  |  |
+| [options.realtime] | <code>Object</code> | <code>true</code> | set false to disable Realtime Connection |
 | [options.webpush] | <code>Object</code> |  |  |
 | [options.webpush.enabled] | <code>Boolean</code> | <code>false</code> | Set true to enable push Notification |
 | [options.silent] | <code>Boolean</code> | <code>true</code> | Receive messages Silently |

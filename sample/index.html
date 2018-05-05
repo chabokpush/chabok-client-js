@@ -20,9 +20,41 @@
     color: #999;
     margin: auto 15px;
   }
+
+  .github-ribbon {
+    position: absolute;
+    top: 15px;
+    right: -114px;
+    padding: 1px 0;
+    transform-origin: top left;
+    transform: rotate(45deg);
+    background-color: #377fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.15)));
+    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
+    background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
+    background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
+    background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
+    background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
+  }
+
+  a.github-ribbon__link {
+    display: inline-block;
+    width: 250px;
+    color: #fff;
+    font-size: 0.8em;
+    letter-spacing: 0.06em;
+    text-shadow: 0 -1px #777;
+    text-decoration: none;
+    text-align: center;
+    line-height: 30px;
+    border-top: 1px dotted #ffc284;
+    border-bottom: 1px dotted #ffa951;
+  }
 </style>
 <body>
-
+<div class="github-ribbon"><a target="_blank" class="github-ribbon__link"
+                              href="https://github.com/chabokpush/chabok-client-js" title="Fork me on GitHub">Fork me on
+  GitHub</a></div>
 <nav class="navbar bg-light">
   <a class="navbar-brand" href="#">
     <img src="https://chabokpush.com/www/image/chabok-logo-big.png" height="30" class="d-inline-block align-top" alt="">
@@ -75,12 +107,12 @@
     };
     const options = {
       webpush: {
-        enabled: true
+        enabled: true,
+        publicKey: 'demo'
       },
       silent: false,
     };
     const chabok = new chabokpush.Chabok(authConfig, options);
-
 
     function disconnectedStatus() {
       statusButton.innerText = "Disconnected"

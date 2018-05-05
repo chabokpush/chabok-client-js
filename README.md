@@ -76,9 +76,15 @@ const auth = {
   password: 'PASSWORD',
   devMode: true
 }
-const options={}
+ const options = {
+   webpush: {
+     enabled: true,
+     publicKey: 'demo'
+   },
+   silent: false,
+ };
 
-const chabok = new chabokpush.Chabok(auth, options)
+const chabok = new chabokpush.Chabok(authConfig, options)
 
 chabok.on('registered', deviceId => console.log('DeviceId ', deviceId))
 

@@ -90,7 +90,8 @@ chabok.on('registered', deviceId => console.log('DeviceId ', deviceId))
 
 chabok.on('connected', _ => {
   console.log('Connected')
-  chabok.enableDeliveryForEvent('geo')
+  chabok.subscribe('important') // subscribe to important channel
+  chabok.subscribeEvent('geo') // subscribe to geo events
 })
 
 chabok.on('message', msg => console.log('Message ', msg))

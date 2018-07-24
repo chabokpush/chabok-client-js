@@ -6,6 +6,7 @@
         integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" type="image/png" href="https://chabokpush.com/www/image/chabok-logo-big.png"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
   <title>Chabok Web Push Notifications</title>
 </head>
 <style>
@@ -58,7 +59,7 @@
 <nav class="navbar bg-light">
   <a class="navbar-brand" href="#">
     <img src="https://chabokpush.com/www/image/chabok-logo-big.png" height="30" class="d-inline-block align-top" alt="">
-    Chabok Web SDK Sample 0.4.1
+    Chabok Web SDK Sample v0.4.2
   </a>
   <button type="button" id="status" class="btn btn-danger pull-right">Disconnected</button>
 </nav>
@@ -84,8 +85,22 @@
     <button type="button" id="unRegister" class="btn btn-danger">Unregister</button>
   </div>
   <hr/>
-  <h4>Messages List</h4>
-  <ul id="list" class="list-group">
+  <h4 class="float-left">Messages List</h4>
+
+  <div class="form-row">
+    <div  class="col-2"></div>
+    <div class="col-4">
+      <input class="form-control" type="text" id="user-field" placeholder="User ID" />
+    </div>
+    <div class="col-5">
+      <input class="form-control" type="text" id="message-field" placeholder="Type a message..." />
+    </div>
+    <div class="col">
+      <button class="btn btn-success" id="message-send">Send</button>
+    </div>
+  </div>
+
+  <ul id="list" class="list-group mt-4">
 
   </ul>
 </div>
@@ -95,6 +110,9 @@
   document.addEventListener("DOMContentLoaded", function () {
     const registerButton = document.getElementById("register")
     const statusButton = document.getElementById("status")
+    const messageField = document.getElementById("message-field")
+    const userIdField = document.getElementById("user-field")
+    const sendButton = document.getElementById("message-send")
     const unRegisterButton = document.getElementById("unRegister")
     const invalidFeedback = document.querySelector(".invalid-feedback")
     const validFeedback = document.querySelector(".valid-feedback")
@@ -161,8 +179,10 @@
     })
     chabok.on('connected', _ => {
       successStatus()
+      chabok.subscribe("wall")
       console.log('Connected')
     });
+
     chabok.on('message', msg => {
       console.log(msg)
       const date = new Date(msg.createdAt);
@@ -171,6 +191,35 @@
       li.setAttribute("class", "list-group-item")
       li.appendChild(document.createTextNode(`${msg.content}`));
       li.dataset.date = `${date.getFullYear()}/${date.getMonth()}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`
+
+      if (msg.publishId) {
+        let userId = msg.publishId.split('/')[0];
+        console.log('publishid', chabok.getUserId())
+        if (chabok.getUserId() === userId) {
+          li.setAttribute("class", "list-group-item text-right")
+          delete li.dataset.date
+        } else {
+          const button = document.createElement('button')
+          button.setAttribute("class", "btn btn-primary float-right")
+          button.innerHTML = '<span class="fas fa-reply"></span>'
+          const btnListener = _ => {
+            chabok.publish({
+              content: messageField.value,
+              channel: 'default',
+              user: userId,
+              createdAt: Date.now()
+            }).then(res => {
+              button.innerHTML = '<span class="fas fa-check"></span>'
+              button.setAttribute('class', 'btn btn-success float-right')
+              button.removeEventListener('click', btnListener)
+            })
+            messageField.value = ''
+          }
+
+          button.addEventListener('click', btnListener)
+          li.appendChild(button)
+        }
+      }
       ul.insertAdjacentElement('afterbegin', li);
     })
 
@@ -217,6 +266,29 @@
       }, false);
 
 
+    sendButton
+      .addEventListener("click", _ => {
+        if(messageField.value){
+          let user = '*'
+          let channel = 'wall'
+          if (userIdField.value) {
+            channel = 'default'
+            user = userIdField.value
+          }
+
+          chabok.publish({
+            channel: channel,
+            content: messageField.value,
+            user: user,
+            createdAt: Date.now()
+          })
+            .then(x => {
+              alert('پیام با موفقیت ارسال شد')
+            })
+
+          messageField.value = ''
+        }
+      })
   });
 </script>
 </body>

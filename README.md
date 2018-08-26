@@ -1,6 +1,11 @@
-![Logo](https://chabokpush.com/images/chabook.png)
+![Logo](https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png)
 # Chabok Push Client for Javascript
+[![npm](https://img.shields.io/npm/v/chabokpush.svg)](https://www.npmjs.com/package/chabokpush)
+[![npm](https://img.shields.io/npm/dt/chabokpush.svg)](https://www.npmjs.com/package/chabokpush)
+
 This Chabok Push client library supports web browsers, web workers.
+
+Please check [library changes](https://doc.chabokpush.com/javascript/release-note.html).
 
 ## Getting started
 
@@ -101,5 +106,9 @@ chabok.on('connecting', _ => console.log('Reconnecting'))
 chabok.on('disconnected', _ => console.log('offline'))
 chabok.on('closed', _ => console.log('disconnected'))
 
-chabok.register('012345678910111213')
+if (chabok.isRegistered() && chabok.getUserId()) {
+  chabok.register(chabok.getUserId())
+} else {
+  chabok.register('012345678910111213') // your userId
+}
 ```

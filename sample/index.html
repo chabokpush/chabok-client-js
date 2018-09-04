@@ -59,7 +59,7 @@
 <nav class="navbar bg-light">
   <a class="navbar-brand" href="#">
     <img src="https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png" height="30" class="d-inline-block align-top" alt="">
-    Chabok Web SDK Sample v1.0.0
+    Chabok Web SDK Sample v1.0.1
   </a>
   <button type="button" id="status" class="btn btn-danger pull-right">Disconnected</button>
 </nav>
@@ -83,6 +83,7 @@
     </div>
     <button type="button" id="register" class="btn btn-primary">Register</button>
     <button type="button" id="unRegister" class="btn btn-danger">Unregister</button>
+    <button type="button" id="trackPurchase" class="btn btn-warning float-right">Track purchase</button>
   </div>
   <hr/>
   <h4 class="float-left">Messages List</h4>
@@ -114,6 +115,7 @@
     const userIdField = document.getElementById("user-field")
     const sendButton = document.getElementById("message-send")
     const unRegisterButton = document.getElementById("unRegister")
+    const trackButton = document.getElementById("trackPurchase")
     const invalidFeedback = document.querySelector(".invalid-feedback")
     const validFeedback = document.querySelector(".valid-feedback")
     const authConfig = {
@@ -150,7 +152,7 @@
       classList(invalidFeedback).remove("d-block")
       classList(validFeedback).add("d-block")
       unRegisterButton.disabled = false
-      registerButton.disabled = true
+      // registerButton.disabled = true
     }
 
     /**
@@ -239,7 +241,7 @@
 
     if (chabok.isRegistered()) {
       unRegisterButton.disabled = false
-      registerButton.disabled = true
+      // registerButton.disabled = true
     } else {
       unRegisterButton.disabled = true
       registerButton.disabled = false
@@ -291,6 +293,14 @@
 
           messageField.value = ''
         }
+      })
+
+    trackButton
+      .addEventListener('click', _ => {
+        const sampleData = {
+          test: true
+        }
+        chabok.track('Purchase', sampleData)
       })
   });
 </script>

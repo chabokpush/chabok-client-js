@@ -1,4 +1,5 @@
-![Logo](https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png)
+![Logo](https://github.com/chabokpush/chabok-assets/blob/master/sdk-logo/JS.svg)
+
 # Chabok Push Client for Javascript
 [![npm](https://img.shields.io/npm/v/chabokpush.svg)](https://www.npmjs.com/package/chabokpush)
 [![npm](https://img.shields.io/npm/dt/chabokpush.svg)](https://www.npmjs.com/package/chabokpush)

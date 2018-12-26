@@ -77,9 +77,7 @@ There are a number of configuration parameters which can be set for the ChabokPu
 ```js
 const auth = {
   appId: 'APP_ID',
-  apiKey: 'API_KEY',
-  username: 'USERNAME',
-  password: 'PASSWORD',
+  webKey: 'WEB_TOKEN',
   devMode: true
 }
  const options = {
@@ -90,7 +88,7 @@ const auth = {
    silent: false,
  };
 
-const chabok = new chabokpush.Chabok(authConfig, options)
+const chabok = new chabokpush.Chabok(auth, options)
 
 chabok.on('registered', deviceId => console.log('DeviceId ', deviceId))
 

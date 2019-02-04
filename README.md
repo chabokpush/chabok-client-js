@@ -42,6 +42,81 @@ const chabokpush = require('chabokpush');
 ```
 Replace [X.Y.Z] with the latest version
 
+### Web Push Browser Support
+
+The following table shows browsers' support for chabok messaging and web push notifications:
+<table>
+<thead>
+<tr>
+<th><strong>Browser</strong></th>
+<th width="130px"><strong>web push</strong></th>
+<th width="130px"><strong>chabok messaging</strong></th>
+<th><strong>Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Chrome</td>
+<td align="center">✓ v42+</td>
+<td align="center">✓</td>
+<td>In v51 and less, the `gcm_sender_id` is needed to get a push subscription.</td>
+</tr>
+<tr>
+<td align="center">Edge</td>
+<td align="center">✓ v17+ (April 2018)</td>
+<td align="center">✓</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">Firefox</td>
+<td align="center">✓ v44+</td>
+<td align="center">✓</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">Opera</td>
+<td align="center">✓ v39+ <strong>*</strong></td>
+<td align="center">✓</td>
+<td>
+  <strong>*</strong> Opera supports push on Android but not on desktop.
+  <br>
+  <br>
+  The `gcm_sender_id` is needed to get a push subscription.
+</td>
+</tr>
+<tr>
+<td align="center">Safari</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">Samsung Internet Browser</td>
+<td align="center">✓ v4.0.10-53+</td>
+<td align="center">✓</td>
+<td>The `gcm_sender_id` is needed to get a push subscription.</td>
+</tr>
+</tbody>
+</table>
+
+For supporting web push notifications on chrome, opera and Samsung internet browser `gcm_sender_id` should be added to `Manifest.js`: (If you already have created your `gcm_sender_id`, you can find it in panel>setting>android cart)
+```javascript
+{
+  .....
+    "gcm_sender_id": "GCM_SENDER_ID",
+  .....
+}
+```
+then add the `Manifest.js` to your root `index.html`:
+
+```html
+<head>
+ ...
+  <link rel="manifest" href="manifest.json">
+...
+</head>
+```
+
 ## Initialization
 
 ```js

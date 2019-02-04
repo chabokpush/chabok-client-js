@@ -49,8 +49,8 @@ The following table shows browsers' support for chabok messaging and web push no
 <thead>
 <tr>
 <th><strong>Browser</strong></th>
-<th width="130px"><strong>web push</strong></th>
-<th width="130px"><strong>chabok messaging</strong></th>
+<th width="130px"><strong>Web Push</strong></th>
+<th width="130px"><strong>Chabok Messaging</strong></th>
 <th><strong>Notes</strong></th>
 </tr>
 </thead>

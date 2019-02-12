@@ -60,7 +60,7 @@
 <nav class="navbar bg-light">
   <a class="navbar-brand" href="#">
     <img src="https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png" height="30" class="d-inline-block align-top" alt="">
-    Chabok Web SDK Sample v1.2.0
+    Chabok Web SDK Sample v1.2.1
   </a>
   <button type="button" id="status" class="btn btn-danger pull-right">Disconnected</button>
 </nav>
@@ -83,6 +83,7 @@
       </div>
     </div>
     <button type="button" id="register" class="btn btn-primary">Register</button>
+    <button type="button" id="registerAsGuest" class="btn btn-info">Register as a guest</button>
     <button type="button" id="unRegister" class="btn btn-danger">Unregister</button>
     <button type="button" id="trackPurchase" class="btn btn-warning float-right">Track purchase</button>
   </div>
@@ -111,6 +112,7 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const registerButton = document.getElementById("register")
+    const registerAsGuestButton = document.getElementById("registerAsGuest")
     const statusButton = document.getElementById("status")
     const messageField = document.getElementById("message-field")
     const userIdField = document.getElementById("user-field")
@@ -244,6 +246,7 @@
     } else {
       unRegisterButton.disabled = true
       registerButton.disabled = false
+      registerAsGuestButton.disabled = false
     }
 
     registerButton
@@ -252,6 +255,19 @@
 
         chabok
           .register(userId)
+          .then(_ => {
+            registeredStat()
+          })
+          .catch(_ => {
+            classList(invalidFeedback).add("d-block")
+            classList(validFeedback).remove("d-block")
+          })
+      }, false);
+
+    registerAsGuestButton
+      .addEventListener("click", _ => {
+        chabok
+          .registerAsGuest()
           .then(_ => {
             registeredStat()
           })

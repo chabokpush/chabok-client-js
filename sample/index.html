@@ -60,7 +60,7 @@
 <nav class="navbar bg-light">
   <a class="navbar-brand" href="#">
     <img src="https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png" height="30" class="d-inline-block align-top" alt="">
-    Chabok Web SDK Sample v1.3.0
+    Chabok Web SDK Sample v1.4.0
   </a>
   <button type="button" id="status" class="btn btn-danger pull-right">Disconnected</button>
 </nav>
@@ -68,34 +68,43 @@
 
 <div class="container">
   <div class="columns mt-5">
-    <div class="form-group">
-      <label for="userId">User Id</label>
-      <input type="text" id="userId" class="form-control" placeholder="Please Enter User Id"
-             aria-describedby="userIdHelpBlock">
-      <small id="userIdHelpBlock" class="form-text text-muted">
-        Please Enter Valid User id, for example Phone Number, email, etc.
-      </small>
-      <div class="invalid-feedback">
-        Error: Please Enter Valid user Id!
-      </div>
-      <div class="valid-feedback">
-        You registered on Chabok successfully.
+    <div class="row">
+      <div class="form-group col-md-12 p-0">
+        <label for="userId">User Id</label>
+        <input type="text" id="userId" class="form-control col-md-12" placeholder="Please Enter User Id"
+               aria-describedby="userIdHelpBlock">
+        <small id="userIdHelpBlock" class="form-text text-muted">
+          Please Enter Valid User id, for example Phone Number, email, etc.
+        </small>
+        <div class="invalid-feedback">
+          Error: Please Enter Valid user Id!
+        </div>
+        <div class="valid-feedback">
+          You registered on Chabok successfully.
+        </div>
       </div>
     </div>
-    <button type="button" id="register" class="btn btn-primary">Register</button>
-    <button type="button" id="registerAsGuest" class="btn btn-info">Register as a guest</button>
-    <button type="button" id="unRegister" class="btn btn-danger">Unregister</button>
-    <button type="button" id="trackPurchase" class="btn btn-warning float-right">Track purchase</button>
+    <div class="row">
+      <button type="button" id="register" class="btn btn-primary mr-1">Register</button>
+      <button type="button" id="registerAsGuest" class="btn btn-info mr-1">Register as a guest</button>
+      <button type="button" id="unRegister" class="btn btn-danger mr-1">Unregister</button>
+    </div>
+    <div class="row d-flex justify-content-sm-right " style="flex-direction: row-reverse;">
+      <button type="button" id="trackPurchaseButton" class="btn btn-warning ml-1 mt-3">Purchase (10000)</button>
+      <button type="button" id="trackPurchase" class="btn btn-warning ml-1 mt-3">AddToCard (123)</button>
+
+      <button type="button" id="userAttribute" class="btn btn-warning ml-1 mt-3">User Attribute</button>
+    </div>
   </div>
   <hr/>
   <h4 class="float-left">Messages List</h4>
 
   <div class="form-row">
     <div  class="col-2"></div>
-    <div class="col-4">
+    <div class="col-md-4 col-sm-6 mb-2">
       <input class="form-control" type="text" id="user-field" placeholder="User ID" />
     </div>
-    <div class="col-5">
+    <div class="col-md-4 col-sm-6 mb-2">
       <input class="form-control" type="text" id="message-field" placeholder="Type a message..." />
     </div>
     <div class="col">
@@ -119,6 +128,8 @@
     const sendButton = document.getElementById("message-send")
     const unRegisterButton = document.getElementById("unRegister")
     const trackButton = document.getElementById("trackPurchase")
+    const trackPurchaseButton = document.getElementById("trackPurchaseButton")
+    const userAttribute = document.getElementById("userAttribute")
     const invalidFeedback = document.querySelector(".invalid-feedback")
     const validFeedback = document.querySelector(".valid-feedback")
     const authConfig = {
@@ -136,6 +147,13 @@
     const chabok = new chabokpush.Chabok(authConfig, options);
     if (chabok.isRegistered() && chabok.getUserId()) {
       chabok.register(chabok.getUserId())
+    } else {
+      chabok.registerAsGuest().then(_=>{
+        chabok.subscribe("wall")
+        chabok.subscribe("private/sport")
+      }).catch(e =>{
+        console.error(e)
+      })
     }
 
     function disconnectedStatus() {
@@ -185,7 +203,6 @@
     })
     chabok.on('connected', _ => {
       successStatus()
-      chabok.subscribe("wall")
       console.log('Connected')
     });
 
@@ -312,10 +329,23 @@
 
     trackButton
       .addEventListener('click', _ => {
-        const sampleData = {
-          test: true
+        const eventData = {
+          value: "PRODUCT_123"
         }
-        chabok.track('Purchase', sampleData)
+        chabok.track('AddToCard', eventData)
+      })
+
+    trackPurchaseButton
+      .addEventListener('click', _ => {
+        const eventData = {
+          revenue: 10000
+        }
+        chabok.trackPurchase('Purchase', eventData)
+      })
+
+    userAttribute
+      .addEventListener('click', _ => {
+        chabok.incrementUserAttribute('comedy_movie', 1)
       })
   });
 </script>
